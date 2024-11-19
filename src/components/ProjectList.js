@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 function ProjectList() {
   const [projects, setProjects] = useState([]);
+  const [analysis, setAnalysis] = useState({}); // Store insights for each project
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -17,6 +18,20 @@ function ProjectList() {
     fetchProjects();
   }, []);
 
+  const analyzeProject = async (project) => {
+    try {
+      const response = await fetch('http://localhost:4000/analyze-project', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ project }),
+      });
+      const data = await response.json();
+      setAnalysis((prev) => ({ ...prev, [project.id]: data.analysis }));
+    } catch (error) {
+      console.error(`Error analyzing project ${project.id}:`, error);
+    }
+  };
+
   return (
     <div className="project-list">
       <h2>GitHub Repositories</h2>
@@ -27,6 +42,13 @@ function ProjectList() {
           <a href={project.url} target="_blank" rel="noopener noreferrer">
             View on GitHub
           </a>
+          <button onClick={() => analyzeProject(project)}>Get Insights</button>
+          {analysis[project.id] && (
+            <div className="project-analysis">
+              <strong>AI Insights:</strong>
+              <p>{analysis[project.id]}</p>
+            </div>
+          )}
         </div>
       ))}
     </div>

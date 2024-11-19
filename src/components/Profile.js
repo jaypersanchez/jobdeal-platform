@@ -8,6 +8,7 @@ import {
   Users,
   Search,
 } from 'lucide-react';
+import Resume from './Resume';
 
 const Profile = ({ name, title, imageUrl }) => {
   console.log("Rendering Profile:", name); // Debugging line
@@ -64,6 +65,7 @@ const Profile = ({ name, title, imageUrl }) => {
           <button className="connect-button">Connect</button>
         </div>
 
+        <Resume />
         {/* Feed Section */}
         <div className="profile-feed">
           <div className="profile-feed-input">
