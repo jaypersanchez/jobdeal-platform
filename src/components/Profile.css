@@ -1,0 +1,115 @@
+.min-h-screen {
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f4f4;
+  }
+  
+  .profile-header {
+    background-color: white;
+    border-bottom: 1px solid #e1e1e1;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .profile-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .profile-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .profile-search-icon {
+    font-size: 20px;
+    color: #0077b5;
+  }
+  
+  .profile-search-input {
+    padding: 8px;
+    width: 280px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .profile-nav {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .profile-nav-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .profile-nav-icon {
+    font-size: 18px;
+  }
+  
+  .profile-main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .profile-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .profile-feed-input {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    background-color: white;
+  }
+  
+  .profile-feed-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .profile-feed-textbox {
+    flex: 1;
+    border: none;
+    outline: none;
+  }
+  
+  .profile-feed-post {
+    background-color: white;
+    padding: 15px;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+  }
+  
+  .profile-feed-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .profile-feed-username {
+    font-size: 1em;
+    font-weight: bold;
+  }
+  
+  .profile-feed-content {
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
+  
