@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import './ProjectList.css';
 
 function ProjectList() {
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null); // Track the selected project
     const [analysis, setAnalysis] = useState({});
     const [taskDescriptions, setTaskDescriptions] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility
+    const [modalContent, setModalContent] = useState(''); // Content for the modal
+    const [newRepoName, setNewRepoName] = useState(''); // New repository name
+    const [newRepoDescription, setNewRepoDescription] = useState(''); // New repository description
+    const [isPrivate, setIsPrivate] = useState(false); // New repository privacy setting
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -31,6 +37,11 @@ function ProjectList() {
                 body: JSON.stringify({ project }),
             });
             const data = await response.json();
+
+            // Open modal and set content
+            setModalContent(data.analysis);
+            setIsModalOpen(true);
+
             setAnalysis((prev) => ({ ...prev, [project.id]: data.analysis }));
         } catch (error) {
             console.error(`Error analyzing project ${project.id}:`, error);
@@ -69,9 +80,41 @@ function ProjectList() {
         }
     };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalContent('');
+    };
+
+    const createNewRepo = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/create-repo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: newRepoName,
+                    description: newRepoDescription,
+                    private: isPrivate,
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert(`Repository created: ${data.name}`);
+                // Reset the form
+                setNewRepoName('');
+                setNewRepoDescription('');
+                setIsPrivate(false);
+            } else {
+                alert(`Error creating repository: ${data.error}`);
+            }
+        } catch (error) {
+            console.error('Error creating repository:', error);
+        }
+    };
+
     return (
         <div className="project-list">
-            <h2>GitHub Repositories</h2>
+            <h2>Project Workbench</h2>
 
             {/* Dropdown to select a project */}
             <div className="project-dropdown">
@@ -103,12 +146,6 @@ function ProjectList() {
                         View on GitHub
                     </a>
                     <button onClick={() => analyzeProject(selectedProject)}>Get Insights</button>
-                    {analysis[selectedProject.id] && (
-                        <div className="project-analysis">
-                            <strong>AI Insights:</strong>
-                            <p>{analysis[selectedProject.id]}</p>
-                        </div>
-                    )}
                     <div>
                         <input
                             type="text"
@@ -117,6 +154,46 @@ function ProjectList() {
                             onChange={(e) => handleTaskDescriptionChange(e.target.value)}
                         />
                         <button onClick={createTask}>Create Task</button>
+                    </div>
+                </div>
+            )}
+
+            {/* New Repository Creation Form */}
+            <div className="new-repo-form">
+                <h3>Create New Repository</h3>
+                <input
+                    type="text"
+                    placeholder="Repository Name"
+                    value={newRepoName}
+                    onChange={(e) => setNewRepoName(e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="Repository Description"
+                    value={newRepoDescription}
+                    onChange={(e) => setNewRepoDescription(e.target.value)}
+                />
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={isPrivate}
+                        onChange={(e) => setIsPrivate(e.target.checked)}
+                    />
+                    Private
+                </label>
+                <button onClick={createNewRepo}>Create Repository</button>
+            </div>
+
+            {/* Modal */}
+            {isModalOpen && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <button className="close-modal" onClick={closeModal}>
+                            &times;
+                        </button>
+                        <h3>AI Insights</h3>
+                        <p>{modalContent}</p>
                     </div>
                 </div>
             )}
