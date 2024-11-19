@@ -11,7 +11,7 @@ function App() {
       <div>
         <h1>JobDeal Platform</h1>
         <Profile name="John Doe" title="Software Engineer" imageUrl="https://robohash.org/johndoe.png" />
-        <CopilotChatComponent />
+        { /* <CopilotChatComponent /> */ }
         <ProjectList className="scrollable" />
       </div>
     </CopilotKit>

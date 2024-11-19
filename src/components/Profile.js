@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Profile.css'; // Importing the CSS for the Profile component
 import {
   Bell,
@@ -9,8 +9,54 @@ import {
   Search,
 } from 'lucide-react';
 import Resume from './Resume';
+import Modal from './Modal'; // Import the Modal component
 
 const Profile = ({ name, title, imageUrl }) => {
+  const [insight, setInsight] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false); // State to control modal visibility
+
+  const handleButtonClick = async () => {
+    // Extract insights from the Resume component
+    const resumeContent = `
+      ${name} is a Fullstack Developer with expertise in JavaScript, React, and Node.js. 
+      They have experience in building scalable web applications and are detail-oriented.
+      Here are some key competencies:
+      - Solidity with latest pragma
+      - Hardhat and Truffle suite for smart contract development
+      - DeFi libraries (Uniswap V2, ERC20 tokens, NFT ERC1155)
+      - React and React Native for user interfaces
+      - ExpressJS and Flask for server-side functionalities
+      - SQL and NoSQL databases for data retention
+      - Machine Learning tools (NumPy, BERT, PyTorch, OpenAI SDK)
+      - DevOps for CI/CD on AWS and Google Cloud Platform
+    `;
+
+    try {
+      const response = await fetch('http://localhost:4000/analyze-resume', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, // Ensure your API key is set in your environment
+        },
+        body: JSON.stringify({
+          resumeContent, // Send the resume content to the new endpoint
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setInsight(data.analysis);
+      setModalOpen(true); // Open the modal with the insight
+    } catch (error) {
+      console.error('Error analyzing resume:', error);
+      setInsight('Failed to analyze resume.');
+      setModalOpen(true); // Open the modal even if there's an error
+    }
+  };
+
   console.log("Rendering Profile:", name); // Debugging line
 
   return (
@@ -62,10 +108,20 @@ const Profile = ({ name, title, imageUrl }) => {
           />
           <h2 className="profile-name">{name}</h2>
           <p className="profile-title">{title}</p>
-          <button className="connect-button">Connect</button>
+          <button className="connect-button" onClick={handleButtonClick}>
+            Tell me about {name} work experience and skills
+          </button>
         </div>
 
-        <Resume />
+        {/* Resume Section */}
+        {/* <Resume /> */}
+
+        {/* Modal for Insight */}
+        <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+          <h3>Insight:</h3>
+          <p>{insight}</p>
+        </Modal>
+
         {/* Feed Section */}
         <div className="profile-feed">
           <div className="profile-feed-input">
