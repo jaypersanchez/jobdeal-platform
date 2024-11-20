@@ -8,7 +8,6 @@ import {
   Users,
   Search,
 } from 'lucide-react';
-import Resume from './Resume';
 import Modal from './Modal'; // Import the Modal component
 
 const Profile = ({ name, title, imageUrl }) => {
@@ -112,9 +111,6 @@ const Profile = ({ name, title, imageUrl }) => {
             Tell me about {name} work experience and skills
           </button>
         </div>
-
-        {/* Resume Section */}
-        {/* <Resume /> */}
 
         {/* Modal for Insight */}
         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>

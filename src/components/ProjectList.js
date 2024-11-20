@@ -140,6 +140,23 @@ function ProjectList() {
         }
     };
 
+    const handleProjectSelect = (project) => {
+        setSelectedProject(project); // Set the selected project
+    };
+
+    const openProjectWorkbench = () => {
+        if (selectedProject) {
+            // Open ProjectWorkbench in a new tab with project name
+            const projectUrl = `/project-workbench?projectName=${encodeURIComponent(selectedProject.name)}`;
+            const newTab = window.open(projectUrl, '_blank');
+            if (!newTab) {
+                alert('Please allow popups for this website');
+            }
+        } else {
+            alert('Please select a project first.');
+        }
+    };
+
     return (
         <div className="project-list">
             <h2>Project Workbench</h2>
@@ -150,7 +167,7 @@ function ProjectList() {
                     onChange={(e) => {
                         const selectedId = e.target.value;
                         const project = projects.find((proj) => proj.id === parseInt(selectedId));
-                        setSelectedProject(project);
+                        handleProjectSelect(project); // Set the selected project
                     }}
                     value={selectedProject?.id || ''}
                 >
@@ -164,6 +181,11 @@ function ProjectList() {
                     ))}
                 </select>
             </div>
+
+            {/* Button to open ProjectWorkbench */}
+            <button onClick={openProjectWorkbench} disabled={!selectedProject}>
+                Open Project Workbench
+            </button>
 
             {/* Display selected project details */}
             {selectedProject && (
