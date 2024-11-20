@@ -148,3 +148,29 @@ input[type="text"]:focus {
 .close-modal:hover {
     color: #000;
 }
+
+.create-repo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between form elements */
+  max-width: 400px; /* Set a max width for the form */
+  margin: auto; /* Center the form */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-repo-button {
+  padding: 10px;
+  background-color: #0077b5; /* Example color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-repo-button:hover {
+  background-color: #005f8d; /* Darker shade on hover */
+}

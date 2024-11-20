@@ -57,16 +57,34 @@
   }
   
   .profile-main {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+    display: flex;
     gap: 20px;
     padding: 20px;
   }
   
+  .profile-card {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
   .profile-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex: 2;
+    margin: 0 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: white;
+  }
+  
+  .job-recommendation {
+    flex: 1;
+    margin-left: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: white;
   }
   
   .profile-feed-input {
@@ -129,4 +147,3 @@
   .insight-container p {
     color: #333;
   }
-  

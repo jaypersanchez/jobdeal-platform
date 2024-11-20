@@ -112,6 +112,34 @@ function ProjectList() {
         }
     };
 
+    const deleteRepo = async () => {
+        if (!selectedProject) {
+            alert('Please select a project to delete.');
+            return;
+        }
+
+        const { name, owner } = selectedProject; // Get the name and owner of the selected project
+        try {
+            const response = await fetch('http://localhost:4000/delete-repo', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ owner, repo: name }), // Send owner and repo name
+            });
+
+            if (response.ok) {
+                alert(`Repository '${name}' deleted successfully!`);
+                // Optionally, refresh the project list or remove the deleted project from state
+                setProjects((prev) => prev.filter((project) => project.id !== selectedProject.id));
+                setSelectedProject(null); // Clear the selected project
+            } else {
+                const errorData = await response.json();
+                alert(`Error deleting repository: ${errorData.error}`);
+            }
+        } catch (error) {
+            console.error('Error deleting repository:', error);
+        }
+    };
+
     return (
         <div className="project-list">
             <h2>Project Workbench</h2>
@@ -155,6 +183,7 @@ function ProjectList() {
                         />
                         <button onClick={createTask}>Create Task</button>
                     </div>
+                    <button onClick={deleteRepo}>Delete Repository</button>
                 </div>
             )}
 
