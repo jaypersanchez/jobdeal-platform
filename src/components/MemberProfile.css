@@ -1,0 +1,22 @@
+.profile-card {
+    border: 1px solid #ccc; /* Optional: Add a border */
+    padding: 10px; /* Optional: Add padding */
+    background-color: #f9f9f9; /* Optional: Background color */
+    text-align: center; /* Center the text */
+}
+
+.profile-image {
+    width: 100px; /* Set a fixed width for the image */
+    height: 100px; /* Set a fixed height for the image */
+    border-radius: 50%; /* Make the image circular */
+}
+
+.profile-name {
+    font-size: 1.5em; /* Adjust font size */
+    margin: 10px 0; /* Add margin */
+}
+
+.profile-title {
+    font-size: 1em; /* Adjust font size */
+    color: #666; /* Change color for the title */
+}
