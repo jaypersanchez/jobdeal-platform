@@ -7,35 +7,40 @@ import { CopilotChatComponent } from './components/CopilotChatComponent';
 import ProjectList from './components/ProjectList';
 import ProjectWorkbench from './components/ProjectWorkbench';
 import '@copilotkit/react-ui/styles.css';
+import MemberProfile from './components/MemberProfile';
+import './App.css';
 
 const App = () => {
   return (
     <Router>
       <CopilotKit runtimeUrl="http://localhost:4000/copilotkit">
-        <div>
-          <h1>JobDeal Platform</h1>
-          <Routes>
-            {/* Route for Member Dashboard */}
-            <Route 
-              path="/" 
-              element={
-                <>
-                  <MemberDashboard 
-                    name="John Doe" 
-                    title="Software Engineer" 
-                    imageUrl="https://robohash.org/johndoe.png" 
-                  />
-                  <ProjectList className="scrollable" />
-                </>
-              } 
-            />
+        <div className="app-container">
+          <div className="main-content">
+            <Routes>
+              {/* Route for Member Dashboard */}
+              <Route 
+                path="/" 
+                element={
+                  <>
+                    
+                    <MemberDashboard 
+                      name="John Doe" 
+                      title="Software Engineer" 
+                      imageUrl="https://robohash.org/johndoe.png" 
+                    />
+                    <ProjectList className="scrollable" />
+                  </>
+                } 
+              />
 
-            {/* Route for Project Workbench */}
-            <Route 
-              path="/project-workbench" 
-              element={<ProjectWorkbench />} 
-            />
-          </Routes>
+              {/* Route for Project Workbench */}
+              <Route 
+                path="/project-workbench" 
+                element={<ProjectWorkbench />} 
+              />
+            </Routes>
+          </div>
+          
         </div>
       </CopilotKit>
     </Router>

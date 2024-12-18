@@ -174,3 +174,7 @@ input[type="text"]:focus {
 .create-repo-button:hover {
   background-color: #005f8d; /* Darker shade on hover */
 }
+
+.button-spacing {
+    margin-right: 10px; /* Adjust the value as needed */
+}

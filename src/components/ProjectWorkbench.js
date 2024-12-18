@@ -4,16 +4,27 @@ import './ProjectWorkbench.css'; // Include CSS for styling
 const ProjectWorkbench = () => {
   const [messages, setMessages] = useState([]); // Messages for communication
   const [newMessage, setNewMessage] = useState(''); // New message input
+  const [projectName, setProjectName] = useState(''); // Project name
+  const [projectId, setProjectId] = useState(''); // Add state for project ID
   const [tasks, setTasks] = useState([]); // Tasks list
   const [taskDescription, setTaskDescription] = useState(''); // New task description
-  const [projectName, setProjectName] = useState(''); // Project name
+  const [repoOwner, setRepoOwner] = useState(''); // Add state for repository owner
+  const [repoName, setRepoName] = useState(''); // Add state for repository name
 
   useEffect(() => {
-    // Get project name from URL parameters
+    // Get project name, ID, and owner from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('projectName');
+    const id = urlParams.get('projectId');
+    const owner = urlParams.get('repoOwner'); // Get project owner
     if (name) {
       setProjectName(name);
+    }
+    if (id) {
+      setProjectId(id);
+    }
+    if (owner) {
+      setRepoOwner(owner); // Set the repo owner in state
     }
   }, []);
 
@@ -24,10 +35,32 @@ const ProjectWorkbench = () => {
     }
   };
 
-  const handleAddTask = () => {
+  const handleAddTask = async () => {
     if (taskDescription.trim()) {
-      setTasks([...tasks, { id: Date.now(), description: taskDescription, completed: false }]);
+      const newTask = { id: Date.now(), description: taskDescription, completed: false };
+      setTasks([...tasks, newTask]);
       setTaskDescription('');
+
+      // Call API to save the task in the repository
+      try {
+        const response = await fetch('http://localhost:4000/create-task', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            project: { name: projectName, id: projectId, owner: repoOwner }, // Include project details
+            taskDescription: newTask.description,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to create task in repository');
+        }
+
+        const data = await response.json();
+        console.log('Task created in repository:', data);
+      } catch (error) {
+        console.error('Error saving task:', error);
+      }
     }
   };
 
